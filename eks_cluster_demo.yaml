@@ -1,0 +1,30 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: demo
+  region: eu-north-1
+  version: "1.32"
+
+vpc:
+  id: "vpc-00ffeb04c9470bb30"
+  subnets:
+    public:
+      eu-north-1a: { id: subnet-0364754931aea48ac }
+      eu-north-1b: { id: subnet-0e6b2a305c0e498dc }
+   # private:
+   #   eu-north-1a: { id: subnet-00dfd824ce5540ff9 }
+   #   eu-north-1b: { id: subnet-0461a9e3923d52f2d }
+
+managedNodeGroups:
+  - name: general
+    instanceType: t3.micro
+    desiredCapacity: 12
+    minSize: 6 
+    maxSize: 15
+    labels: { role: general }
+    volumeSize: 25
+    privateNetworking: false
+    iam:
+      withAddonPolicies:
+        autoScaler: true
